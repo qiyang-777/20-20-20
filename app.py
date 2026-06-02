@@ -43,6 +43,7 @@ def timer_loop():
 
 def quit_app(icon):
     icon.stop()
+    os._exit(0)
 
 def start_remainder():
     threading.Thread(
