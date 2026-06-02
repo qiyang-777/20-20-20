@@ -6,11 +6,15 @@ from PIL import Image
 import json
 import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(BASE_DIR, "config.json")
+icon_path = os.path.join(BASE_DIR, "logo.ico")
+
 def load_interval():
-    if not os.path.exists("config.json"):
+    if not os.path.exists(config_path):
         return 20
 
-    with open("config.json", "r", encoding="utf-8") as f:
+    with open(config_path, "r", encoding="utf-8") as f:
         config = json.load(f)
 
     return config.get("interval", 20)
@@ -48,7 +52,7 @@ def start_remainder():
 
 def create_the_tray():
     image = Image.open(
-        'logo.ico'
+        icon_path
     )
 
     icon = Icon(
