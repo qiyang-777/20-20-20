@@ -1,6 +1,8 @@
 import tkinter as tk
 import time
 import threading
+from pystray import Icon, Menu, MenuItem
+from PIL import Image
 
 minutes = float(input("请输入提醒间隔（分钟）："))
 interval = minutes * 5
@@ -26,7 +28,30 @@ def timer_loop():
         time.sleep(interval)
         show_reminder()
 
+def quit_app(icon):
+    icon.stop()
 
-threading.Thread(target=timer_loop, daemon=True).start()
 
-input("程序运行中，按回车退出...\n")
+# 创建托盘图标
+image = Image.new(
+    "RGB",
+    (64, 64),
+    "blue"
+)
+
+icon = Icon(
+    "Reminder",
+    image,
+    menu=Menu(
+        MenuItem("退出", quit_app)
+    )
+)
+
+# 启动提醒线程
+threading.Thread(
+    target=timer_loop,
+    daemon=True
+).start()
+
+# 启动托盘
+icon.run()
