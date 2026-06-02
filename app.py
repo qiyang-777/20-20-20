@@ -3,12 +3,19 @@ import time
 import threading
 from pystray import Icon, Menu, MenuItem
 from PIL import Image
+import json
+import os
 
-def get_interval():
-    minutes = float(input("请输入提醒间隔（分钟）："))
-    return  minutes * 5
+def load_interval():
+    if not os.path.exists("config.json"):
+        return 20
 
-interval = get_interval()
+    with open("config.json", "r", encoding="utf-8") as f:
+        config = json.load(f)
+
+    return config.get("interval", 20)
+
+interval = load_interval() * 60
 
 def show_reminder():
     root = tk.Tk()
