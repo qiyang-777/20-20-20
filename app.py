@@ -47,10 +47,8 @@ def start_remainder():
     ).start()
 
 def create_the_tray():
-    image = Image.new(
-        "RGB",
-        (64, 64),
-        "blue"
+    image = Image.open(
+        'logo.ico'
     )
 
     icon = Icon(
