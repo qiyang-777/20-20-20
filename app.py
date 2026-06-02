@@ -4,8 +4,10 @@ import threading
 from pystray import Icon, Menu, MenuItem
 from PIL import Image
 
-minutes = float(input("请输入提醒间隔（分钟）："))
-interval = minutes * 5
+def get_interval():
+    minutes = float(input("请输入提醒间隔（分钟）："))
+    return  minutes * 5
+
 
 def show_reminder():
     root = tk.Tk()
@@ -22,7 +24,6 @@ def show_reminder():
 
     root.mainloop()
 
-
 def timer_loop():
     while True:
         time.sleep(interval)
@@ -31,27 +32,32 @@ def timer_loop():
 def quit_app(icon):
     icon.stop()
 
+def start_remainder():
+    threading.Thread(
+        target=timer_loop,
+        daemon=True
+    ).start()
 
-# 创建托盘图标
-image = Image.new(
-    "RGB",
-    (64, 64),
-    "blue"
-)
-
-icon = Icon(
-    "Reminder",
-    image,
-    menu=Menu(
-        MenuItem("退出", quit_app)
+def create_the_tray():
+    image = Image.new(
+        "RGB",
+        (64, 64),
+        "blue"
     )
-)
+
+    icon = Icon(
+        "Reminder",
+        image,
+        menu=Menu(
+            MenuItem("退出", quit_app)
+        )
+    )
+    icon.run()
 
 # 启动提醒线程
-threading.Thread(
-    target=timer_loop,
-    daemon=True
-).start()
 
-# 启动托盘
-icon.run()
+
+interval = get_interval()
+start_remainder()
+create_the_tray()
+
