@@ -8,6 +8,7 @@ def get_interval():
     minutes = float(input("请输入提醒间隔（分钟）："))
     return  minutes * 5
 
+interval = get_interval()
 
 def show_reminder():
     root = tk.Tk()
@@ -54,10 +55,10 @@ def create_the_tray():
     )
     icon.run()
 
-# 启动提醒线程
+def main():
+    start_remainder()
+    create_the_tray()
 
-
-interval = get_interval()
-start_remainder()
-create_the_tray()
+if __name__ == "__main__" :
+    main()
 
