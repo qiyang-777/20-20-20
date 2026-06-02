@@ -5,10 +5,19 @@ from pystray import Icon, Menu, MenuItem
 from PIL import Image
 import json
 import os
+import sys
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-config_path = os.path.join(BASE_DIR, "config.json")
-icon_path = os.path.join(BASE_DIR, "logo.ico")
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+config_path = resource_path("config.json")
+icon_path = resource_path("logo.ico")
+
 
 def load_interval():
     if not os.path.exists(config_path):
@@ -22,12 +31,12 @@ def load_interval():
 def show_reminder():
     root = tk.Tk()
     root.title("提醒")
-    root.geometry("300x100")
+    root.geometry("500x200")
 
     label = tk.Label(
         root,
         text="该休息一下眼睛了！",
-        font=("宋体", 14)
+        font=("宋体", 20)
     )
     label.pack(expand=True)
 
@@ -35,6 +44,7 @@ def show_reminder():
 
 def timer_loop():
     while True:
+        interval = load_interval() * 60
         time.sleep(interval)
         show_reminder()
 
