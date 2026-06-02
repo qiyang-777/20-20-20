@@ -19,11 +19,8 @@ def load_interval():
 
     return config.get("interval", 20)
 
-interval = load_interval() * 60
-
 def show_reminder():
     root = tk.Tk()
-
     root.title("提醒")
     root.geometry("300x100")
 
